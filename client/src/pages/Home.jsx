@@ -56,6 +56,8 @@ function Home() {
       console.log(data);
 
       setResult(data.aiResponse);
+      console.log(data.aiResponse);
+
 
       setLoading(false);
 

@@ -1,37 +1,33 @@
 const express = require("express");
-
 const multer = require("multer");
+const fs = require("fs");
 
 const {
-  uploadResume,
-  getResumeHistory,
+uploadResume,
 } = require("../controllers/resumeController");
 
 const router = express.Router();
 
+if (!fs.existsSync("uploads")) {
+fs.mkdirSync("uploads");
+}
+
 const storage = multer.diskStorage({
+destination: (req, file, cb) => {
+cb(null, "uploads/");
+},
 
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-
+filename: (req, file, cb) => {
+cb(null, Date.now() + "-" + file.originalname);
+},
 });
 
 const upload = multer({ storage });
 
 router.post(
-  "/upload",
-  upload.single("resume"),
-  uploadResume
-);
-
-router.get(
-  "/history",
-  getResumeHistory
+"/upload",
+upload.single("resume"),
+uploadResume
 );
 
 module.exports = router;
