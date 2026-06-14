@@ -16,7 +16,7 @@ function History() {
     try {
 
       const res = await axios.get(
-        "http://localhost:5000/api/resume/history"
+        "https://ai-resume-analyzer-8lvz.onrender.com/api/resume/history"
       );
 
       setHistory(res.data);

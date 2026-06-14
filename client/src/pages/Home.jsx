@@ -39,7 +39,7 @@ function Home() {
         localStorage.getItem("token");
 
       const response = await fetch(
-        "http://localhost:5000/api/resume/upload",
+        "https://ai-resume-analyzer-8lvz.onrender.com/api/resume/upload",
         {
           method: "POST",
 

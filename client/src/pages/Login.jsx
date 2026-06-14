@@ -12,7 +12,7 @@ function Login() {
     try {
 
       const response = await fetch(
-        "http://localhost:5000/api/auth/login",
+        "https://ai-resume-analyzer-8lvz.onrender.com/api/auth/login",
         {
           method: "POST",
           headers: {
