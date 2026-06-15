@@ -19,18 +19,31 @@ app.use("/api/auth", authRoutes);
 app.use("/api/resume", resumeRoutes);
 
 pool.connect()
+.then(async () => {
 
-  .then(() => {
+```
+console.log("PostgreSQL Connected");
 
-    console.log("PostgreSQL Connected");
+await pool.query(
+  "CREATE TABLE IF NOT EXISTS resume_history (
+    id SERIAL PRIMARY KEY,
+    score INTEGER,
+    job_description TEXT
+  )
+);
 
-  })
+console.log("resume_history table ready");
+```
 
-  .catch((err) => {
+})
+.catch((err) => {
 
-    console.log(err);
+```
+console.log(err);
+```
 
-  });
+});
+
 
 app.get("/", (req, res) => {
 
