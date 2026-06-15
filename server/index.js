@@ -25,7 +25,7 @@ pool.connect()
 console.log("PostgreSQL Connected");
 
 await pool.query(
-  "CREATE TABLE IF NOT EXISTS resume_history (
+  CREATE TABLE IF NOT EXISTS resume_history (
     id SERIAL PRIMARY KEY,
     score INTEGER,
     job_description TEXT
