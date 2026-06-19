@@ -3,84 +3,89 @@ import axios from "axios";
 
 function History() {
 
-  const [history, setHistory] = useState([]);
+const [history, setHistory] = useState([]);
 
-  useEffect(() => {
+useEffect(() => {
 
-    fetchHistory();
+```
+fetchHistory();
+```
 
-  }, []);
+}, []);
 
-  const fetchHistory = async () => {
+const fetchHistory = async () => {
 
-    try {
+```
+try {
 
-      const res = await axios.get(
-        "http://localhost:5000/api/resume/history"
+  const res = await axios.get(
+    "https://ai-resume-analyzer-8lvz.onrender.com/api/resume/history"
+  );
 
-      );
+  setHistory(res.data);
 
-      setHistory(res.data);
+} catch (error) {
 
-    } catch (error) {
+  console.log(error);
 
-      console.log(error);
+}
+```
 
-    }
+};
 
-  };
+return (
 
-  return (
+```
+<div
+  style={{
+    minHeight: "100vh",
+    background: "#0f172a",
+    color: "white",
+    padding: "40px",
+  }}
+>
 
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "#0f172a",
-        color: "white",
-        padding: "40px",
-      }}
-    >
+  <h1
+    style={{
+      textAlign: "center",
+      marginBottom: "40px",
+    }}
+  >
+    Resume History 📊
+  </h1>
 
-      <h1
+  {
+
+    history.map((item) => (
+
+      <div
+        key={item.id}
         style={{
-          textAlign: "center",
-          marginBottom: "40px",
+          background: "#1e293b",
+          padding: "20px",
+          marginBottom: "20px",
+          borderRadius: "10px",
         }}
       >
-        Resume History 📊
-      </h1>
 
-      {
+        <h2>ATS Score: {item.score}%</h2>
 
-        history.map((item) => (
+        <p>
+          <strong>Job Description:</strong>
+        </p>
 
-          <div
-            key={item.id}
-            style={{
-              background: "#1e293b",
-              padding: "20px",
-              marginBottom: "20px",
-              borderRadius: "10px",
-            }}
-          >
+        <p>{item.job_description}</p>
 
-            <h2>ATS Score: {item.score}%</h2>
+      </div>
 
-            <p>
-              <strong>Job Description:</strong>
-            </p>
+    ))
 
-            <p>{item.job_description}</p>
+  }
 
-          </div>
+</div>
+```
 
-        ))
-
-      }
-
-    </div>
-
-  );
+);
 
 }
 
