@@ -1,33 +1,80 @@
 const express = require("express");
-const multer = require("multer");
-const fs = require("fs");
-
-const {
-uploadResume,
-} = require("../controllers/resumeController");
-
 const router = express.Router();
+const multer = require("multer");
 
-if (!fs.existsSync("uploads")) {
-fs.mkdirSync("uploads");
-}
+const analyzeResume = require("../utils/analyzeResume");
+const pool = require("../config/db");
 
-const storage = multer.diskStorage({
-destination: (req, file, cb) => {
-cb(null, "uploads/");
-},
-
-filename: (req, file, cb) => {
-cb(null, Date.now() + "-" + file.originalname);
-},
+const upload = multer({
+  dest: "uploads/",
 });
 
-const upload = multer({ storage });
-
 router.post(
-"/upload",
-upload.single("resume"),
-uploadResume
+  "/upload",
+  upload.single("resume"),
+  async (req, res) => {
+
+    try {
+
+      const jobDescription =
+        req.body.jobDescription;
+
+      const aiResponse =
+        await analyzeResume(
+          "",
+          jobDescription
+        );
+
+      await pool.query(
+        "INSERT INTO resume_history (score, job_description) VALUES ($1, $2)",
+        [
+          aiResponse.score,
+          jobDescription,
+        ]
+      );
+
+      res.json({
+        success: true,
+        aiResponse,
+      });
+
+    } catch (error) {
+
+      console.log(error);
+
+      res.status(500).json({
+        error: error.message,
+      });
+
+    }
+
+  }
+);
+
+router.get(
+  "/history",
+  async (req, res) => {
+
+    try {
+
+      const result =
+        await pool.query(
+          "SELECT * FROM resume_history ORDER BY id DESC"
+        );
+
+      res.json(result.rows);
+
+    } catch (error) {
+
+      console.log(error);
+
+      res.status(500).json({
+        error: error.message,
+      });
+
+    }
+
+  }
 );
 
 module.exports = router;

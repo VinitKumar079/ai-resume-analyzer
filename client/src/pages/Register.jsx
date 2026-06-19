@@ -18,7 +18,7 @@ function Register() {
     e.preventDefault();
 
     const response = await fetch(
-      "https://ai-resume-analyzer-8lvz.onrender.com/api/auth/register",
+      "http://localhost:5000/api/auth/register",
       {
         method: "POST",
 
