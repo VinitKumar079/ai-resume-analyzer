@@ -9,6 +9,10 @@ import "react-circular-progressbar/dist/styles.css";
 
 function Home() {
 
+if (!localStorage.getItem("token")) {
+window.location.href = "/login";
+}
+
 const [resume, setResume] = useState(null);
 
 const [jobDescription, setJobDescription] =
@@ -92,30 +96,57 @@ return (
     }}
   >
 
-    <button
-      onClick={() => {
-
-        localStorage.removeItem("token");
-
-        window.location.href = "/login";
-
-      }}
-
+    <div
       style={{
-        padding: "10px 20px",
-        border: "none",
-        borderRadius: "10px",
-        background: "#ef4444",
-        color: "white",
-        cursor: "pointer",
-        float: "right",
+        display: "flex",
+        justifyContent: "flex-end",
+        gap: "10px",
         marginBottom: "20px",
       }}
     >
 
-      Logout
+      <button
+        onClick={() => {
+          window.location.href = "/history";
+        }}
+        style={{
+          padding: "10px 20px",
+          border: "none",
+          borderRadius: "10px",
+          background: "#22c55e",
+          color: "white",
+          cursor: "pointer",
+        }}
+      >
 
-    </button>
+        View History
+
+      </button>
+
+      <button
+        onClick={() => {
+
+          localStorage.removeItem("token");
+
+          window.location.href = "/login";
+
+        }}
+
+        style={{
+          padding: "10px 20px",
+          border: "none",
+          borderRadius: "10px",
+          background: "#ef4444",
+          color: "white",
+          cursor: "pointer",
+        }}
+      >
+
+        Logout
+
+      </button>
+
+    </div>
 
     <h1
       style={{
